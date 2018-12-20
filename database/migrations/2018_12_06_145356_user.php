@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class User extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tbl_user', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('token_user', 255);
+            $table->string('nama_lengkap', 100);
+            $table->string('username', 50);
+            $table->string('password');
+            $table->string('email', 50);
+            $table->string('gambar');
+            $table->string('level', 5);
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('tbl_user');
+    }
+}
