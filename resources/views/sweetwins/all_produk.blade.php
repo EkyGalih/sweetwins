@@ -11,17 +11,16 @@ semua jenis khimar dan cadar dengan berbagai macam warna tersedia di <a href="ht
 @section('konten2')
 <div class="container">
 	<div class="row">
-		<?php $no=1; ?>
 		@foreach($produk as $p)
 		<div class="col-md-4 probootstrap-animate">
-			<div class="probootstrap-block-image" id="{{ $no }}">
-				<figure><a href="#"><img src="{{ $p->gambar }}" alt="Free Bootstrap Template by uicookies.com"></a></figure>
+			<div class="probootstrap-block-image" id="{{ $loop->iteration }}">
+				<figure><a href="#"><img src="{{ $p->gambar }}" alt="{{ $p->gambar }}" width="600px" height="400px"></a></figure>
 				<div class="text">
 					<h3 class="mb30"><a href="#">{{ $p->nama_produk }}</a></h3>
 					<p class="dark">{{ $p->deskripsi }}</p>
 					<p class="secondary-color rate">Price IDR. {{ number_format($p->harga) }}</p>
 					<hr>
-					<p class="clearfix"><button data-toggle="modal" data-target="#ModalView{{ $no }}" class="pull-left btn btn-ghost btn-ghost-black btn-sm">Details</button>
+					<p class="clearfix"><button data-toggle="modal" data-target="#ModalView{{ $loop->iteration }}" class="pull-left btn btn-ghost btn-ghost-black btn-sm">Details</button>
 						@if($p->status == 0)
 						<label class="pull-right label label-danger">Tidak Tersedia</label>
 						@elseif($p->status == 1)
@@ -31,7 +30,7 @@ semua jenis khimar dan cadar dengan berbagai macam warna tersedia di <a href="ht
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="ModalView{{ $no }}" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+		<div class="modal fade" id="ModalView{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -94,7 +93,6 @@ semua jenis khimar dan cadar dengan berbagai macam warna tersedia di <a href="ht
 				</div>
 			</div>
 		</div>
-		<?php $no++; ?>
 		@endforeach
 	</div>
 </div>

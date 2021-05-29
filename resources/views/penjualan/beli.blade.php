@@ -12,14 +12,16 @@ Silahkan Lengkapi form di bawah untuk memesan barang
 <div class="container">
 	<div class="row">
 		<div class="col-md-4 probootstrap-animate">
-			<img src="{{ $beli->gambar }}" alt="{{ $beli->nama_produk }}">
+			<img src="{{ asset($beli->gambar) }}" alt="{{ $beli->nama_produk }}">
 		</div>
 		<div class="col-md-4 probootstrap-animate">
-			<form action="{{ url('penjualan') }}" method="POST">
-				{{ csrf_field() }}
+			<form action="{{ route('penjualan.store') }}" method="POST">
+				@csrf
 				<div class="form-group">
+					<input type="hidden" name="user_id" value="{{ $user->user_id }}">
+					<input type="hidden" name="produk_id" value="{{ $beli->produk_id }}">
 					<label for="nama_pembeli">Nama Anda</label>
-					<input type="text" name="nama_pembeli" class="form-control">
+					<input type="text" name="nama_pembeli" value="{{ $user->nama_lengkap }}" class="form-control">
 				</div>
 				<div class="form-group">
 					<label for="nama_produk">Nama Produk</label>
@@ -31,11 +33,11 @@ Silahkan Lengkapi form di bawah untuk memesan barang
 				</div>
 				<div class="form-group">
 					<label for="kontak">Kontak</label>
-					<input type="text" name="kontak" class="form-control">
+					<input type="text" name="kontak" value="{{ old('kontak') }}" class="form-control">
 				</div>
 				<div class="form-group">
 					<label for="jumlah_pesanan">Jumlah Pesanan</label>
-					<input type="text" name="jumlah_barang" class="form-control">
+					<input type="number" name="jumlah_barang" value="{{ old('jumlah_barang') }}" class="form-control">
 				</div>
 				<input type="hidden" name="status_bayar" value="0">
 				<button type="submit" class="btn btn-ghost btn-ghost-black">

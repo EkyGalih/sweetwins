@@ -9,24 +9,6 @@ Toko Penyedia khimar dan cadar
 semua jenis khimar dan cadar dengan berbagai macam warna tersedia di <a href="https://uicookies.com/" target="_blank">olshop.com
 @endsection
 @section('konten2')
-  <section id="next-section">
-    <div class="container-fluid">
-      <div class="row probootstrap-gutter0">
-        @foreach($produk as $p)
-        <div class="col-md-4 col-sm-6">
-          <a href="portfolio-single.html" class="probootstrap-hover-overlay">
-            <img src="{{ $p->gambar }}" alt="{{ $p->nama_produk }}" style="height: 45%; width: 45%" class="img-responsive">
-            <div class="probootstrap-text-overlay">
-              <h3>{{ $p->nama_produk }}</h3>
-              <p>{{ $p->deskripsi }}</p>
-            </div>
-          </a>
-        </div>
-        @endforeach
-      </div>
-    </div>
-  </section>
-
   <!-- START: section -->
   <section class="probootstrap-section probootstrap-section-colored">
     <div class="container">
@@ -36,17 +18,21 @@ semua jenis khimar dan cadar dengan berbagai macam warna tersedia di <a href="ht
           <p class="lead">Segala produk khimar dan cadar tersedia di toko kami, anda hanya tinggal memilih dan menunggu barang sampai.</p>
         </div>
       </div>
-      <div class="row mb70">
-        @foreach($produk2 as $p2)
+      <div class="row">
+        @foreach($produk2 as $p)
         <div class="col-md-4 probootstrap-animate">
-          <div class="probootstrap-block-image">
-            <figure><a href="#"><img src="{{ $p2->gambar }}" alt="Free Bootstrap Template by uicookies.com"></a></figure>
+          <div class="probootstrap-block-image" id="{{ $loop->iteration }}">
+            <figure><a href="#"><img src="{{ $p->gambar }}" alt="{{ $p->gambar }}" width="600px" height="400px"></a></figure>
             <div class="text">
-              <h3 class="mb30"><a href="#">{{ $p2->nama_produk }}</a></h3>
+              <h3 class="mb30"><a href="#">{{ $p->nama_produk }}</a></h3>
               <p class="dark">{{ $p->deskripsi }}</p>
-              <p class="secondary-color rate">Price IDR. {{ number_format($p2->harga) }}</p>
+              <p class="secondary-color rate">Price IDR. {{ number_format($p->harga) }}</p>
               <hr>
-              <p class="clearfix"><button class="pull-left btn btn-ghost btn-ghost-black btn-sm">Details</button></p>
+              <div class="row">
+                <p class="clearfix"><a href="{{ route('produk.show', $p->produk_id) }}" class="pull-left btn btn-ghost btn-ghost-black btn-sm">Lihat Details</a>
+                  <img src="{{ asset('img/bintang4.png') }}" style="float: right" width="100px" height="20px" alt="feedback">
+                </p>
+              </div>
             </div>
           </div>
         </div>

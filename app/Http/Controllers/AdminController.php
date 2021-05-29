@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use Auth;
 use Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
@@ -17,13 +18,31 @@ class AdminController extends Controller
     	return view('auth.login');
     }
 
-    public function postLogin(Request $lo){
-    	$l = $lo->all();
-    	if (Auth::attempt(['username' => $l['username'], 'password' => $l['password']])) {
-    		return redirect()->intended('home');
-    	} else {
-    		return back()->with('fail', 'username atau password salah');
-    	}
+    public function postLogin(Request $request){
+		if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+			$credentials = [
+				'email' => $request->email,
+				'password' => $request->password
+			];
+		} else {
+			$credentials = [
+				'username' => $request->email,
+				'password' => $request->password
+			];
+		}
+
+		$user = User::where('username', '=', $request->email)->orWhere('email', '=', $request->email)->first();
+
+		if (Auth::attempt($credentials, $request->remember_token)) {
+			if ($user->level == 'admin') {
+				return Redirect::to(env('ADMIN'));
+			} elseif ($user->level == 'user') {
+				return Redirect::to(env('USER'));
+			}
+			return redirect()->route('login');
+		}
+
+		return redirect()->back()->with(['failed' => 'login gagal, pastikan email atau username dan password anda benar'])->withInput($request->all());
     }
 
     public function regis(){

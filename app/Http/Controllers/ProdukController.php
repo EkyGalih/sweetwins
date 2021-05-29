@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 class ProdukController extends Controller
 {
     public function index(){
-    	$produk = Produk::orderBy('id','desc')->get();
+    	$produk = Produk::select('id as produk_id', 'produk.*')->orderBy('id','desc')->get();
     	return view('produk.daftar', compact('produk'));
     }
 
@@ -27,8 +27,13 @@ class ProdukController extends Controller
     		$p['gambar'] = 'upload/produk/default.jpg';
     	}
     	Produk::create($p);
-    	return redirect('produk');
+    	return redirect()->route('produk-admin');
     }
+
+	public function show($id){
+		$detail_produk = Produk::select('id as produk_id', 'produk.*')->where('id', '=', $id)->first();
+		return view('produk.detail_produk', compact('detail_produk'));
+	}
 
     public function update(Request $produk, $id){
     	$p = $produk->all();
@@ -42,13 +47,13 @@ class ProdukController extends Controller
             $p['gambar'] = 'upload/produk/'.$filename;
         }
 		Produk::find($id)->update($p);
-		return redirect('produk');
+		return redirect()->route('produk-admin');
     }
 
     public function destroy($id){
     	$p = Produk::find($id);
     	File::delete(public_path($p->gambar));
     	$p->delete();
-    	return redirect('produk');
+    	return redirect()->route('produk-admin')->with(['success' => 'Produk Berhasil Dihapus!']);
     }
 }

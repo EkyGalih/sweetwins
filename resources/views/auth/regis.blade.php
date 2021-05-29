@@ -43,12 +43,12 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="images/icon/logo.png" alt="CoolAdmin">
+                                <img src="{{ asset('img/logo_swtw.jpg') }}" style="width: 80px; height: 80px;" alt="SweeTwins"> SweeTwins
                             </a>
                         </div>
                         <div class="login-form">
                             <form action="{{ url('register') }}" enctype="multipart/form-data" method="post">
-                                {{ csrf_field() }}
+                                @csrf
                                 <div class="form-group">
                                     <label>Nama Lengkap</label>
                                     <input class="au-input au-input--full" type="text" name="nama_lengkap" placeholder="Nama Lengkap">
@@ -70,13 +70,7 @@
                                     <input class="au-input au-input--full" type="file" name="gambar">
                                 </div>
                                 <div class="form-group">
-                                    <label>Level</label>
-                                    <select name="level" class="au-input au-input--full">
-                                        <option></option>
-                                        <option value="4">Super Admin</option>
-                                        <option value="3">Admin</option>
-                                        <option value="2">User</option>
-                                    </select>
+                                    <input type="hidden" name="level" value="user">
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
                             </form>

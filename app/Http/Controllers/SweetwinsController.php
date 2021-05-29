@@ -18,7 +18,7 @@ class SweetwinsController extends Controller
 
     public function welcome(){
     	$produk = Produk::all();
-    	$produk2 = Produk::orderBy('id','desc')->limit(3)->get();
+    	$produk2 = Produk::select('id as produk_id', 'produk.*')->orderBy('id','desc')->limit(3)->get();
     	return view('welcome', compact('produk','produk2'));
     }
 }

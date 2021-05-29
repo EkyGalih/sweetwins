@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Komentar;
+use App\User;
 use File;
+use Illuminate\Support\Facades\Auth;
 
 class KomentarController extends Controller
 {
@@ -16,17 +18,12 @@ class KomentarController extends Controller
 
     public function store(Request $komentar){
     	$k = $komentar->all();
+		$user_id = User::where('id', '=', Auth::user()->id)->select('id as user_id')->first();
+		$k['user_id'] = $user_id->user_id;
     	$file = $komentar->file('gambar');
     	$k['token_komentar'] = date('dmys').str_random(99);
-    	if ($file != null) {
-    		$filename = $file->getClientOriginalName();
-    		$file->move('upload/komentar', $filename);
-    		$k['gambar'] = 'upload/komentar/'.$filename;
-    	}else{
-    		$k['gambar'] = 'upload/komentar/default.jpg';
-    	}
     	Komentar::create($k);
-    	return redirect('/');
+    	return redirect()->back();
     }
 
     public function destroy($id){

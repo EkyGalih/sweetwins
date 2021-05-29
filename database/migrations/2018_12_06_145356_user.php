@@ -13,15 +13,15 @@ class User extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_user', function(Blueprint $table){
-            $table->increments('id');
+        Schema::create('user', function(Blueprint $table){
+            $table->string('id', 40)->primary();
             $table->string('token_user', 255);
             $table->string('nama_lengkap', 100);
             $table->string('username', 50);
             $table->string('password');
             $table->string('email', 50);
             $table->string('gambar');
-            $table->string('level', 5);
+            $table->enum('level', ['admin','user']);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ class User extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_user');
+        Schema::drop('user');
     }
 }

@@ -13,15 +13,15 @@ class Komentar extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_komentar', function(Blueprint $table){
-            $table->increments('id');
+        Schema::create('komentar', function(Blueprint $table){
+            $table->string('id', 40)->primary();
             $table->string('token_komentar', 255);
-            $table->string('nama', 100);
-            $table->string('kontak', 100);
+            $table->string('user_id', 40);
+            $table->string('produk_id', 40);
             $table->text('komentar');
-            $table->string('rating', 10);
-            $table->string('gambar');
+            $table->string('rating', 10)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -32,6 +32,6 @@ class Komentar extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_komentar');
+        Schema::drop('komentar');
     }
 }

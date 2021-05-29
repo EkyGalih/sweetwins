@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Produk;
 use App\Penjualan;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class PenjualanController extends Controller
 {
@@ -14,8 +16,20 @@ class PenjualanController extends Controller
 	}
 
     public function beli($token_produk, $id){
-    	$beli = Produk::find($id);
-    	return view('penjualan.beli', compact('beli'));
+		$user = User::where('id', '=', Auth::user()->id)
+		->select(
+			'user.id as user_id',
+			'user.*'
+		)
+		->first();
+    	$beli = Produk::where('token_produk', '=', $token_produk)
+		->select(
+			'id as produk_id',
+			'produk.*'
+		)
+		->where('id', '=', $id)
+		->first();
+    	return view('penjualan.beli', compact('beli', 'user'));
     }
 
     public function store(Request $beli){

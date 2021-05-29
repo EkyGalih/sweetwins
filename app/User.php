@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Webpatser\Uuid\Uuid;
 
 class User extends Authenticatable
 {
@@ -15,10 +16,17 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $table = 'tbl_user';
-    protected $fillable = [
-        'token_user', 'nama_lengkap', 'username', 'password', 'email', 'gambar', 'level'
-    ];
+    protected $table = 'user';
+    protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = (string)Uuid::generate(4);
+        });
+    }
 
     /**
      * The attributes that should be hidden for arrays.

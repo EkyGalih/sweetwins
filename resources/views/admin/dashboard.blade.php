@@ -1,7 +1,6 @@
 @extends('layout')
-@section('judul')
-Dashboard 
-@endsection
+@section('judul', 'Dashboard')
+@section('menu-dashboard', 'active')
 @section('konten')
  <!-- STATISTIC-->
             <section class="statistic">

@@ -1,39 +1,25 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome','ProdukController@welcome');
-// });
-Route::group(['middleware' => 'auth'], function(){
-	Route::group(['middleware' => 'superadmin'], function(){
-		// Resouce of controller
-		Route::resource('home', 'AdminController');
-		Route::resource('produk','ProdukController');
-		Route::resource('komentar','KomentarController');
-		Route::resource('penjualan','PenjualanController');
-		// Specific of controller
-		Route::get('users', 'AdminController@users');
-	});
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+	Route::get('/', 'AdminController@index')->name('admin');
 });
+
+Route::group(['prefix' => 'user', 'middleware' => ['auth', 'user']], function () {
+	Route::get('/', 'AdminController@index')->name('user');
+});
+
+Route::get('show/{id}', 'ProdukController@show')->name('produk.show');
+Route::group(['prefix' => 'user', 'middleware' => ['auth', 'user']], function () {
+	Route::get('beli/{token_produk}/{id}','PenjualanController@beli')->name('produk.beli');
+	Route::post('store', 'PenjualanController@store')->name('penjualan.store');
+	Route::post('komentar', 'KomentarController@store')->name('produk.komentar');
+});
+
 Route::get('all_produk','SweetwinsController@all_produk');
 Route::get('about','SweetwinsController@about');
-Route::get('beli', 'SweetwinsController@beli');
-Route::get('beli/{token_produk}/{id}','PenjualanController@beli');
 Route::get('/','SweetwinsController@welcome');
 Route::post('postLogin', 'AdminController@postLogin');
-Route::group(['middleware' => 'guest'], function(){
-	Route::get('login', 'AdminController@login')->name('login');
-	Route::get('regis', 'AdminController@regis')->name('regis');
-	Route::post('register', 'AdminController@register')->name('register');
-});
-	Route::get('logout', 'AdminController@logout');
+Route::get('login', 'AdminController@login')->name('login');
+Route::get('regis', 'AdminController@regis')->name('regis');
+Route::post('register', 'AdminController@register')->name('register');
+Route::get('logout', 'AdminController@logout');

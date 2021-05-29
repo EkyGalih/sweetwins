@@ -48,10 +48,10 @@
                         </div>
                         <div class="login-form">
                             <form action="{{ url('postLogin') }}" method="post">
-                                {{ csrf_field() }}
+                                @csrf
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input class="au-input au-input--full" type="text" name="username" placeholder="Username">
+                                    <input class="au-input au-input--full" type="text" name="email" placeholder="E-mail atau Username">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
@@ -66,6 +66,7 @@
                                     </label>
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
+                                <p>Belum punya akun? <a href="{{ route('regis') }}">Daftar</a></p>
                             </form>
                         </div>
                     </div>
